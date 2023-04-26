@@ -8,6 +8,7 @@ import SignIn from "./app/SignIn";
 import SignUp from "./app/SignUp";
 import VideoRecorder from "./app/VideoRecorder";
 import TopNavBar from "./app/navbar/TopNav";
+import Settings from './app/Settings';
 
 function MyRoutes() {
   // const [isLoading, setIsLoading] = useState(true);
@@ -51,6 +52,8 @@ function MyRoutes() {
         <Route path="/signup" element={<SignUp/>}/>
         <Route path="/" element={<VideoRecorder/>}/>
         <Route path="/pastvideos" element={<Dashboard/>}/>
+        <Route path="/settings" element={<Settings/>}/>
+
       </Routes>
     </div>
   );

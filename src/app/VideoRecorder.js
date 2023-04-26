@@ -1,24 +1,46 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import fbase from "../config/Firebase";
+import { FaPlay, FaStop, FaCamera, FaRedo } from 'react-icons/fa';
 
 export default function VideoRecorder() {
   const [isRecording, setIsRecording] = useState(false);
   const [recordedChunks, setRecordedChunks] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [cameraStream, setCameraStream] = useState(null);
+  const [videoPreviewUrl, setVideoPreviewUrl] = useState(null);
+  const [cameraFacingMode, setCameraFacingMode] = useState('user');
   const mediaRecorderRef = useRef(null);
+  const videoRef = useRef(null);
 
-  const handleStartRecording = () => {
-    const constraints = { audio: true, video: true };
+  useEffect(() => {
+    let videoStream;
+    const constraints = { audio: true, video: { facingMode: cameraFacingMode } };
     navigator.mediaDevices.getUserMedia(constraints)
       .then((stream) => {
-        setIsRecording(true);
-        const mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
-        mediaRecorderRef.current = mediaRecorder;
-        mediaRecorder.addEventListener('dataavailable', handleDataAvailable);
-        mediaRecorder.start(5000); // Record every 5 seconds
+        videoStream = stream;
+        setCameraStream(stream);
+        videoRef.current.srcObject = stream;
       })
       .catch((error) => {
         console.error('Error accessing media devices.', error);
       });
+    return () => {
+      if (videoStream) {
+        videoStream.getTracks().forEach(track => {
+          track.stop();
+        });
+      }
+    };
+  }, [cameraFacingMode]);
+
+  const handleStartRecording = () => {
+    setIsLoading(true);
+    const mediaRecorder = new MediaRecorder(cameraStream, { mimeType: 'video/webm' });
+    mediaRecorderRef.current = mediaRecorder;
+    mediaRecorder.addEventListener('dataavailable', handleDataAvailable);
+    mediaRecorder.start(5000); // Record every 5 seconds
+    setIsRecording(true);
+    setIsLoading(false);
   };
 
   const handleStopRecording = () => {
@@ -60,16 +82,52 @@ export default function VideoRecorder() {
       });
   };
 
+  const handleSwitchCamera = () => {
+    const newFacingMode = cameraFacingMode === 'user' ? 'environment' : 'user';
+    setCameraFacingMode(newFacingMode);
+  };
+
+  const handleRetakeVideo = () => {
+    setVideoPreviewUrl(null);
+    setRecordedChunks([]);
+  };
+
   return (
-    <div>
-      {isRecording ? (
-        <button onClick={handleStopRecording}>Stop Recording</button>
-      ) : (
-        <button onClick={handleStartRecording}>Start Recording</button>
-      )}
-      {recordedChunks.length > 0 && (
-        <button onClick={handleUpload}>Upload Video</button>
-      )}
-    </div>
+    <div className="video-recorder-container">
+      <div className="video-preview-container">
+        {videoPreviewUrl ? (
+          <video src={videoPreviewUrl} autoPlay controls />
+        ) : (
+          <video ref={videoRef} autoPlay
+          className="video-preview"
+          />
+          )}
+        </div>
+        <div className="video-controls">
+          {!isRecording && !videoPreviewUrl && (
+            <button onClick={handleStartRecording} disabled={!cameraStream || isLoading}>
+              <FaPlay />
+            </button>
+          )}
+          {isRecording && (
+            <button onClick={handleStopRecording}>
+              <FaStop />
+            </button>
+          )}
+          {recordedChunks.length > 0 && (
+            <button onClick={handleUpload}>
+              Upload
+            </button>
+          )}
+          {videoPreviewUrl && (
+            <button onClick={handleRetakeVideo}>
+              <FaRedo />
+            </button>
+          )}
+          <button onClick={handleSwitchCamera}>
+            <FaCamera />
+          </button>
+        </div>
+      </div>
   );
-}
+  }      

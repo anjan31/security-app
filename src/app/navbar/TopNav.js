@@ -18,12 +18,15 @@ function TopNavBar({ onLogout }) {
       <div className="nav-wrapper">
         <Link to="/" className="brand-logo">Security</Link>
         <ul id="nav-mobile" className="right hide-on-med-and-down">
-          {currentUser ? (
+          <li><Link to="/">Home</Link></li>
+          {currentUser && (
             <>
               <li><Link to="/pastvideos">Past Videos</Link></li>
+              <li><Link to="/settings">Settings</Link></li>
               <li><button onClick={onLogout}>Logout</button></li>
             </>
-          ) : (
+          )}
+          {!currentUser && (
             <li><Link to="/signin">Sign In</Link></li>
           )}
         </ul>

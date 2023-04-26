@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import fbase from "../config/Firebase";
+import './dashboard.css';
 
 export default function Dashboard() {
   const [videoLinks, setVideoLinks] = useState([]);
@@ -15,7 +16,11 @@ export default function Dashboard() {
   useEffect(() => {
     if (currentUser) {
       const db = fbase.db;
-      const unsubscribeDB = db.collection('users').doc(currentUser.uid).collection('videolinks')
+      const unsubscribeDB = db
+        .collection('users')
+        .doc(currentUser.uid)
+        .collection('videolinks')
+        .orderBy('createdAt', 'desc') // add order by creation time in descending order
         .onSnapshot((snapshot) => {
           const videos = snapshot.docs.map((doc) => ({
             id: doc.id,
@@ -27,15 +32,7 @@ export default function Dashboard() {
       return () => unsubscribeDB();
     }
   }, [currentUser]);
-
-  // const handlePlay = (url) => {
-  //   const video = document.createElement('video');
-  //   video.src = url;
-  //   video.controls = true;
-  //   video.play();
-  //   document.getElementById('video-container').appendChild(video);
-  //
-  // };
+  
 
   useEffect(() => {
     const videoContainer = document.getElementById('video-container');
@@ -43,19 +40,14 @@ export default function Dashboard() {
       const videoElement = document.createElement('video');
       videoElement.src = video.url;
       videoElement.controls = true;
+      videoElement.className = 'video';
       videoContainer.appendChild(videoElement);
     });
   }, [videoLinks]);
 
   return (
-    <div>
+    <div id="dashboard-container">
       <div id="video-container"></div>
-
-      {/*{videoLinks.map((video) => (*/}
-      {/*  <div key={video.id}>*/}
-      {/*    <button onClick={() => handlePlay(video.url)}>Play Video</button>*/}
-      {/*  </div>*/}
-      {/*))}*/}
     </div>
   );
 }
