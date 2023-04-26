@@ -1,12 +1,13 @@
 import React, { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { auth } from './Firebase';
+import {Link, useNavigate} from 'react-router-dom';
 import './SignIn.css';
+import fbase from "../config/Firebase";
 
 export default function SignIn() {
   const [error, setError] = useState('');
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleSignIn = (e) => {
     e.preventDefault();
@@ -15,9 +16,9 @@ export default function SignIn() {
     const errorMessage = validateForm(email, password);
     setError(errorMessage);
     if (!errorMessage) {
-      auth.signInWithEmailAndPassword(email, password)
+      fbase.auth.signInWithEmailAndPassword(email, password)
         .then((auth) => {
-          console.log(auth);
+          navigate('/');
         })
         .catch((err) => {
           setError(err.message);

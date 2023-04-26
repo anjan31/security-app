@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import firebase from './Firebase';
+import fbase from "../config/Firebase";
 
 export default function VideoRecorder() {
   const [isRecording, setIsRecording] = useState(false);
@@ -33,9 +33,9 @@ export default function VideoRecorder() {
   };
 
   const handleUpload = () => {
-    const storageRef = firebase.storage().ref();
-    const firestore = firebase.firestore();
-    const userId = firebase.auth().currentUser.uid;
+    const storageRef = fbase.storage().ref();
+    const firestore = fbase.firestore();
+    const userId = fbase.auth().currentUser.uid;
     const fileName = `${Date.now()}.webm`;
     const fileRef = storageRef.child(fileName);
     const blob = new Blob(recordedChunks, { type: 'video/webm' });
@@ -48,7 +48,7 @@ export default function VideoRecorder() {
       .then((downloadURL) => {
         return firestore.collection('users').doc(userId).collection('videolinks').add({
           url: downloadURL,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          createdAt: fbase.firestore.FieldValue.serverTimestamp()
         });
       })
       .then(() => {

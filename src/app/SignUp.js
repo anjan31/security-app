@@ -1,8 +1,7 @@
 import './SignUp.css';
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import { auth } from './Firebase';
+import fbase from "../config/Firebase";
 
 export default function SignUp() {
   const [error, setError] = useState('');
@@ -21,7 +20,7 @@ export default function SignUp() {
     const errorMessage = validateForm(email, password, confirm);
     setError(errorMessage);
     if (!errorMessage) {
-      auth.createUserWithEmailAndPassword(email, password)
+      fbase.auth.createUserWithEmailAndPassword(email, password)
         .then((auth) => {
           console.log(auth);
           history('/');
