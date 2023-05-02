@@ -25,6 +25,7 @@ function TopNavBar({ onLogout }) {
               <li><Link to="/startvideo">Start Videos</Link></li>
               <li><Link to="/viewvideo">View Videos</Link></li>
               <li><Link to="/settings">Settings</Link></li>
+              <li><Link to="/add">Start</Link></li>
               <li><button onClick={onLogout}>Logout</button></li>
             </>
           )}
