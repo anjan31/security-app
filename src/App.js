@@ -5,12 +5,11 @@ import fbase from "./config/Firebase";
 import Dashboard from "./app/Dashboard";
 import SignIn from "./app/SignIn";
 import SignUp from "./app/SignUp";
-import VideoRecorder from "./app/VideoRecorder";
 import TopNavBar from "./app/navbar/TopNav";
 import Settings from './app/Settings';
 import ViewVideo from "./app/LiveVideo/ViewVideo";
 import StartVideo from "./app/LiveVideo/StartVideo";
-import Add from "./app/rooms/Add";
+import Add from "./app/Rooms/Add";
 
 function MyRoutes() {
   // const [isLoading, setIsLoading] = useState(true);
