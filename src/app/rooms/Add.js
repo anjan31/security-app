@@ -4,8 +4,7 @@ import Start from './Start';
 function Add() {
   return (
     <div>
-        
-    
+      <video id="localVideo" muted autoPlay playsInline></video>
        <Start/>
     </div>
   )
