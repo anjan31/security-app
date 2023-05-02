@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import ClipLoader from 'react-spinners/ClipLoader';
+import React from 'react';
+import {BrowserRouter as Router, Route, Routes, useNavigate} from 'react-router-dom';
 import './App.css';
 import fbase from "./config/Firebase";
 import Dashboard from "./app/Dashboard";
@@ -9,6 +8,8 @@ import SignUp from "./app/SignUp";
 import VideoRecorder from "./app/VideoRecorder";
 import TopNavBar from "./app/navbar/TopNav";
 import Settings from './app/Settings';
+import ViewVideo from "./app/LiveVideo/ViewVideo";
+import StartVideo from "./app/LiveVideo/StartVideo";
 
 function MyRoutes() {
   // const [isLoading, setIsLoading] = useState(true);
@@ -50,8 +51,10 @@ function MyRoutes() {
       <Routes>
         <Route path="/signin" element={<SignIn/>}/>
         <Route path="/signup" element={<SignUp/>}/>
-        <Route path="/" element={<VideoRecorder/>}/>
+        {/*<Route path="/" element={<VideoRecorder/>}/>*/}
         <Route path="/pastvideos" element={<Dashboard/>}/>
+        <Route path="/startvideo" element={<StartVideo/>}/>
+        <Route path="/viewvideo" element={<ViewVideo/>}/>
         <Route path="/settings" element={<Settings/>}/>
 
       </Routes>

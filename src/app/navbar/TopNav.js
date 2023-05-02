@@ -22,6 +22,8 @@ function TopNavBar({ onLogout }) {
           {currentUser && (
             <>
               <li><Link to="/pastvideos">Past Videos</Link></li>
+              <li><Link to="/startvideo">Start Videos</Link></li>
+              <li><Link to="/viewvideo">View Videos</Link></li>
               <li><Link to="/settings">Settings</Link></li>
               <li><button onClick={onLogout}>Logout</button></li>
             </>
