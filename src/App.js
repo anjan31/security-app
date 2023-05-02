@@ -10,6 +10,8 @@ import Settings from './app/Settings';
 import ViewVideo from "./app/LiveVideo/ViewVideo";
 import StartVideo from "./app/LiveVideo/StartVideo";
 import Add from "./app/Rooms/Add";
+import ViewRooms from "./app/Rooms/ViewRooms";
+
 
 function MyRoutes() {
   // const [isLoading, setIsLoading] = useState(true);
@@ -57,6 +59,8 @@ function MyRoutes() {
         <Route path="/viewvideo" element={<ViewVideo/>}/>
         <Route path="/settings" element={<Settings/>}/>
         <Route path="/add" element={<Add/>}/>
+        <Route path="/viewrooms" element={<ViewRooms/>}/>
+
 
 
       </Routes>
