@@ -21,7 +21,7 @@ let peerConnection = null;
 let localStream = null;
 let remoteStream = null;
 let roomDialog = null;
-let roomId = null;
+var roomId = null;
 
 function init() {
 }

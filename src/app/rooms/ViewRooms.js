@@ -5,19 +5,32 @@ import Start from "./Start";
 
 function RoomList() {
   const [rooms, setRooms] = useState([]);
+    const [currentUser, setCurrentUser] = useState(null);
+
+    useEffect(() => {
+        const unsubscribeAuth = fbase.auth.onAuthStateChanged((user) => {
+            setCurrentUser(user);
+        });
+        return () => unsubscribeAuth();
+    }, []);
 
   useEffect(() => {
-    const unsubscribe = fbase.db
-      .collection('rooms')
-      .onSnapshot(snapshot => {
-        const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        setRooms(data);
-      });
-    return () => unsubscribe();
-  }, []);
+    if (currentUser){
+        const unsubscribe = fbase.db
+            .collection('roomDetails')
+            .where('uid' ,'==', currentUser.uid)
+            .onSnapshot(snapshot => {
+                const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                setRooms(data);
+            });
+        return () => unsubscribe();
+    }
+  }, [currentUser]);
 
   return (
     <div>
+
+        Updated Version View Rooms
 
       <div id="videos">
         Local
@@ -34,7 +47,7 @@ function RoomList() {
       {rooms.map((room) => (
         <div key={room.id}>
           <div>{room.id}</div>
-          <div>{room.name}</div>
+          <div>{room.roomName}</div>
           <div>{room.description}</div>
           <button className="start-button" id='createBtn' onClick={()=>window.joinRoomById(room.id)}>Join Room</button>
         </div>
