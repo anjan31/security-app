@@ -26,7 +26,7 @@ let roomId = null;
 function init() {
 }
 
-async function createRoom() {
+async function createRoom(roomName,currentUser) {
   console.log("create Room is called")
   const db = firebase.firestore();
   const roomRef = await db.collection('rooms').doc();
@@ -63,6 +63,8 @@ async function createRoom() {
       type: offer.type,
       sdp: offer.sdp,
     },
+    roomName : roomName, 
+    currentUser : currentUser,
   };
   await roomRef.set(roomWithOffer);
   roomId = roomRef.id;

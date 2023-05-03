@@ -8,6 +8,7 @@ function Settings() {
   const currentUser = fbase.auth.currentUser;
   const [newPassword, setNewPassword] = useState('');
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
     currentUser.updatePassword(newPassword)

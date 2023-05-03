@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import fbase from "../../config/Firebase";
-import Start from "./Start";
+
 
 function RoomList() {
   const [rooms, setRooms] = useState([]);
@@ -17,7 +17,7 @@ function RoomList() {
   }, []);
 
   return (
-    <div>
+    <div>             
 
       <div id="videos">
         Local
@@ -34,7 +34,7 @@ function RoomList() {
       {rooms.map((room) => (
         <div key={room.id}>
           <div>{room.id}</div>
-          <div>{room.name}</div>
+          <div><h2>{room.name}</h2></div>
           <div>{room.description}</div>
           <button className="start-button" id='createBtn' onClick={()=>window.joinRoomById(room.id)}>Join Room</button>
         </div>
