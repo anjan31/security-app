@@ -21,6 +21,11 @@
   }
   
   .start-button:hover {
-    background-color: #0d8bf0;
+    background-color: #2196f3;
+  }
+
+  .mdc-button
+  {
+    background-color: #2196f3;
   }
   

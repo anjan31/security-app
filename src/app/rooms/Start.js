@@ -27,8 +27,8 @@ function StartButton({ onStart }) {
             <span className="mdc-button__label">Open camera & microphone</span>
             </button>
 
-      <button className="start-button"  onClick={createRoom}>Start (Create Button UID)</button>
-      <button className="start-button" onClick={window.hangUp}>Hangup</button>
+      <button className="mdc-button mdc-button--raised"  onClick={createRoom}>Start (Create Button UID)</button>
+      <button className="mdc-button mdc-button--raised" onClick={window.hangUp}>Hangup</button>
     </div>
   );
 }
