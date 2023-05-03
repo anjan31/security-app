@@ -19,10 +19,14 @@ function StartButton({ onStart }) {
 
     const createRoom = async () => {
       await window.createRoom();
-      fbase.db.collection("roomDetails").doc(window.roomId).set({
-        roomName: name,
-        uid: currentUser.uid,
-      });
+      const value = {
+          uid: currentUser.uid,
+      }
+      if (name){
+          value.name = name;
+      }
+        console.log(value)
+      await fbase.db.collection("roomDetails").doc(window.roomId).set(value);
       setRoomId(window.roomId);
     };
     
@@ -44,17 +48,16 @@ function StartButton({ onStart }) {
                 :(
               <div>
                 
-                <div className="container">
-                <form className="settings-form">
-                  <h2>Room Details </h2>
-                  
-                  <div className="form-group">
-                    <label>Room Name:</label>
-                    <input type="text"  onChange={(e) => SetName(e.target.value)} />
-                  </div>
-                  <button className='mdc-button' onClick={createRoom}>Start</button>
-                </form>
-              </div>
+                <div className="start-card">
+                    <div className="form-group">
+                        <label>Room Name:</label><br/>
+                        <input type="text"  onChange={(e) => {
+                            console.log(e.target.value)
+                            SetName(e.target.value)
+                        }} />
+                    </div>
+                    <button className='mdc-button' onClick={createRoom}>Start</button>
+                </div>
             </div>
                 
                 )

@@ -48,10 +48,9 @@ function RoomList() {
         ) : (
             rooms.map((room) => (
                 <div className="items" key={room.id}>
-                    <div><h4>{room.roomName}</h4></div>
                     <div>Room Id : {room.id}</div>
+                    { room.name ? <div>Room Name : {room.name}</div> : <span></span>}
 
-                    <div>{room.description}</div>
                     <button
                         className="mdc-button margin-top"
                         id="createBtn"

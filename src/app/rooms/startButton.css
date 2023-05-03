@@ -5,7 +5,16 @@
     transform: translate(-50%, -50%);
     z-index: 999;
   }
-  
+
+.start-card {
+  left: 50%;
+  z-index: 999;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+}
+
   .start-button {
     padding: 1rem 2rem;
     border: none;
@@ -86,15 +95,17 @@
     margin: 0;
     font-weight: bold;
   }
+
+.form-group input {
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  border: 2px solid #2196f3;
+  border-radius: 5px;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+}
   
-  .settings-form input[type="password"] {
-    padding: 0.5rem;
-    font-size: 1.2rem;
-    border: none;
-    border-bottom: 2px solid #2196f3;
-  }
-  
-  .settings-form button[type="submit"] {
+  .form-group button[type="submit"] {
     grid-column: 1 / 4;
     margin-top: 1rem;
     padding: 0.5rem;
@@ -105,6 +116,7 @@
     border-radius: 0.25rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    width: 100%;
   }
   
   .settings-form button[type="submit"]:hover {
