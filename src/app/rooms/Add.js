@@ -3,9 +3,13 @@ import Start from './Start';
 
 function Add() {
   return (
-    <div>
+    <div id="videos">
+      Local
       <video id="localVideo" muted autoPlay playsInline></video>
-       <Start/>
+      Remote
+      <video id="remoteVideo" muted autoPlay playsInline></video>
+
+      <Start/>
     </div>
   )
 }
