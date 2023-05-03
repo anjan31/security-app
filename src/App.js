@@ -70,9 +70,12 @@ function MyRoutes() {
 
 function App() {
   return (
-    <Router>
-      <MyRoutes/>
-    </Router>
+    <div>
+      <button onClick={window.init}>Start Application</button>
+      <Router>
+        <MyRoutes/>
+      </Router>
+    </div>
   );
 }
 

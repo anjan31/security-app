@@ -1,4 +1,3 @@
-// mdc.ripple.MDCRipple.attachTo(document.querySelector('.mdc-button'));
 
 const configuration = {
   iceServers: [
@@ -25,42 +24,10 @@ let roomDialog = null;
 let roomId = null;
 
 function init() {
-  const cameraBtn = document.querySelector('#cameraBtn');
-  const hangupBtn = document.querySelector('#hangupBtn');
-  const createBtn = document.querySelector('#createBtn');
-  const joinBtn = document.querySelector('#joinBtn');
-
-  if (cameraBtn) {
-    cameraBtn.addEventListener('click', openUserMedia);
-  }
-
-  if (hangupBtn) {
-    hangupBtn.addEventListener('click', hangUp);
-  }
-
-  if (createBtn) {
-    createBtn.addEventListener('click', createRoom);
-  }
-
-  if (joinBtn) {
-    joinBtn.addEventListener('click', joinRoom);
-  }
-
-  // roomDialog = new mdc.dialog.MDCDialog(document.querySelector('#room-dialog'));
 }
 
 async function createRoom() {
-  const createBtn = document.querySelector('#createBtn');
-  const joinBtn = document.querySelector('#joinBtn');
-
-  if (createBtn) {
-    createBtn.disabled = true;
-  }
-
-  if (joinBtn) {
-    joinBtn.disabled = true;
-  }
-
+  console.log("create Room is called")
   const db = firebase.firestore();
   const roomRef = await db.collection('rooms').doc();
 
@@ -100,8 +67,6 @@ async function createRoom() {
   await roomRef.set(roomWithOffer);
   roomId = roomRef.id;
   console.log(`New room created with SDP offer. Room ID: ${roomRef.id}`);
-  document.querySelector(
-      '#currentRoom').innerText = `Current room is ${roomRef.id} - You are the caller!`;
   // Code for creating a room above
 
   peerConnection.addEventListener('track', event => {
@@ -127,6 +92,7 @@ async function createRoom() {
   roomRef.collection('calleeCandidates').onSnapshot(snapshot => {
     snapshot.docChanges().forEach(async change => {
       if (change.type === 'added') {
+        console.log("Create Room is called Got new remote ICE candidate")
         let data = change.doc.data();
         console.log(`Got new remote ICE candidate: ${JSON.stringify(data)}`);
         await peerConnection.addIceCandidate(new RTCIceCandidate(data));
@@ -136,22 +102,9 @@ async function createRoom() {
   // Listen for remote ICE candidates above
 }
 
-// function joinRoom() {
-//   document.querySelector('#createBtn').disabled = true;
-//   document.querySelector('#joinBtn').disabled = true;
-//
-//   document.querySelector('#confirmJoinBtn').
-//       addEventListener('click', async () => {
-//         roomId = document.querySelector('#room-id').value;
-//         console.log('Join room: ', roomId);
-//         document.querySelector(
-//             '#currentRoom').innerText = `Current room is ${roomId} - You are the callee!`;
-//         await joinRoomById(roomId);
-//       }, {once: true});
-//   roomDialog.open();
-// }
 
 async function joinRoomById(roomId) {
+  console.log("Join Room is called")
   const db = firebase.firestore();
   const roomRef = db.collection('rooms').doc(`${roomId}`);
   const roomSnapshot = await roomRef.get();
@@ -206,6 +159,8 @@ async function joinRoomById(roomId) {
     roomRef.collection('callerCandidates').onSnapshot(snapshot => {
       snapshot.docChanges().forEach(async change => {
         if (change.type === 'added') {
+          console.log("Join Room is called Got new remote ICE candidate")
+
           let data = change.doc.data();
           console.log(`Got new remote ICE candidate: ${JSON.stringify(data)}`);
           await peerConnection.addIceCandidate(new RTCIceCandidate(data));
@@ -217,36 +172,14 @@ async function joinRoomById(roomId) {
 }
 
 async function openUserMedia(e) {
-  console.log(e)
   const stream = await navigator.mediaDevices.getUserMedia(
-      {video: true, audio: true});
+    {video: true, audio: true});
   document.querySelector('#localVideo').srcObject = stream;
   localStream = stream;
   remoteStream = new MediaStream();
   document.querySelector('#remoteVideo').srcObject = remoteStream;
 
   console.log('Stream:', document.querySelector('#localVideo').srcObject);
-  const cameraBtn = document.querySelector('#cameraBtn');
-  const joinBtn = document.querySelector('#joinBtn');
-  const createBtn = document.querySelector('#createBtn');
-  const hangupBtn = document.querySelector('#hangupBtn');
-
-  if (cameraBtn) {
-    cameraBtn.disabled = true;
-  }
-
-  if (joinBtn) {
-    joinBtn.disabled = false;
-  }
-
-  if (createBtn) {
-    createBtn.disabled = false;
-  }
-
-  if (hangupBtn) {
-    hangupBtn.disabled = false;
-  }
-
 }
 
 async function hangUp(e) {
@@ -262,43 +195,6 @@ async function hangUp(e) {
   if (peerConnection) {
     peerConnection.close();
   }
-
-  const localVideo = document.querySelector('#localVideo');
-  const remoteVideo = document.querySelector('#remoteVideo');
-  const cameraBtn = document.querySelector('#cameraBtn');
-  const joinBtn = document.querySelector('#joinBtn');
-  const createBtn = document.querySelector('#createBtn');
-  const hangupBtn = document.querySelector('#hangupBtn');
-  const currentRoom = document.querySelector('#currentRoom');
-
-  if (localVideo) {
-    localVideo.srcObject = null;
-  }
-
-  if (remoteVideo) {
-    remoteVideo.srcObject = null;
-  }
-
-  if (cameraBtn) {
-    cameraBtn.disabled = false;
-  }
-
-  if (joinBtn) {
-    joinBtn.disabled = true;
-  }
-
-  if (createBtn) {
-    createBtn.disabled = true;
-  }
-
-  if (hangupBtn) {
-    hangupBtn.disabled = true;
-  }
-
-  if (currentRoom) {
-    currentRoom.innerText = '';
-  }
-
 
   // Delete room on hangup
   if (roomId) {
@@ -321,7 +217,7 @@ async function hangUp(e) {
 function registerPeerConnectionListeners() {
   peerConnection.addEventListener('icegatheringstatechange', () => {
     console.log(
-        `ICE gathering state changed: ${peerConnection.iceGatheringState}`);
+      `ICE gathering state changed: ${peerConnection.iceGatheringState}`);
   });
 
   peerConnection.addEventListener('connectionstatechange', () => {
@@ -334,8 +230,7 @@ function registerPeerConnectionListeners() {
 
   peerConnection.addEventListener('iceconnectionstatechange ', () => {
     console.log(
-        `ICE connection state change: ${peerConnection.iceConnectionState}`);
+      `ICE connection state change: ${peerConnection.iceConnectionState}`);
   });
 }
 
-init();
