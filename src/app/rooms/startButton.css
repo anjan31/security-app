@@ -1,6 +1,6 @@
 .start-button-container {
     position: fixed;
-    top: 50%;
+    top: 63vh;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 999;
@@ -22,10 +22,15 @@
   
   .start-button:hover {
     background-color: #2196f3;
+    
   }
 
   .mdc-button
   {
     background-color: #2196f3;
+    color: white !important;
+    
   }
+
+
   
