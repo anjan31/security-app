@@ -3,22 +3,26 @@ import Start from './Start';
 
 function Add() {
   return (
-    <div className="container">
-    <form className="settings-form" >
-      <h2>Video Preview</h2>
-      <div className="form-group" id ="videos">
-      <video id="localVideo" muted autoPlay playsInline></video>
-      </div>
-      <div className="form-group">
-      <Start/>
-      </div>
+    
+   
       
-    </form>
-  </div>
-  
+    <div className="container">
+      <form className="settings-form" >
+        <h2>Video Preview</h2>
+        <div className="form-group" id='videos'>
+        <video id="localVideo" muted autoPlay playsInline></video>
+        <video id="remoteVideo" muted autoPlay playsInline className="displayNone"></video>
+        </div>
+        <div className="form-group">
+        <Start/>
+        </div>
+        
+      </form>
+    </div>
+    
 
     
   )
 }
 
-export default Add;
+export default Add
