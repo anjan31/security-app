@@ -1,5 +1,5 @@
 .start-button-container {
-    position: fixed;
+    position: absolute;
     top: 63vh;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -30,6 +30,20 @@
     background-color: #2196f3;
     color: white !important;
     
+  }
+
+  .mdc-button-danger
+  {
+    background-color: #f3212c;
+    color: white !important;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+   
   }
 
 

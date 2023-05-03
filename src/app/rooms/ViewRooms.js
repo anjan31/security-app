@@ -38,9 +38,9 @@ function RoomList() {
 
       </div>
       <div className="start-button-container">
-      <button className="mdc-button mdc-button--raised" id="cameraBtn" onClick={window.openUserMedia}>
+      <button className="mdc-button" id="cameraBtn" onClick={window.openUserMedia}>
         <i className="material-icons mdc-button__icon" aria-hidden="true">perm_camera_mic</i>
-        <span className="mdc-button__label">Open camera & microphone</span>
+        <span className="mdc-button">Give Access</span>
       </button>
 
         {roomJoined ? (
@@ -51,11 +51,12 @@ function RoomList() {
         ) : (
             rooms.map((room) => (
                 <div key={room.id}>
+                    <div><h4>{room.roomName}</h4></div>
                     <div>{room.id}</div>
-                    <div>{room.roomName}</div>
+                    
                     <div>{room.description}</div>
                     <button
-                        className="start-button"
+                        className="mdc-button"
                         id="createBtn"
                         onClick={() => {
                             window.joinRoomById(room.id);

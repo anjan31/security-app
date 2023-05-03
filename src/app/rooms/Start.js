@@ -28,7 +28,7 @@ function StartButton({ onStart }) {
             </button>
 
       <button className="mdc-button "  onClick={createRoom}>Start</button>
-      <button className="mdc-button " onClick={window.hangUp}>Hangup</button>
+      <button className="mdc-button-danger" onClick={window.hangUp}>Hangup</button>
     </div>
   );
 }
