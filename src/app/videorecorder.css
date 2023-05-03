@@ -1,0 +1,19 @@
+.video-controls
+{
+    top: 63vh !important;
+    left: 50% !important;
+    position: absolute;
+}
+
+
+
+button {
+    background-color: #2196f3;
+    margin: 3px;
+    height: 3em;
+    width: 9em;
+    border-radius: 5em;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+}

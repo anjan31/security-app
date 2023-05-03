@@ -1,6 +1,9 @@
+
+//import { FaPlay, FaStop, FaCamera, FaRedo } from 'react-icons/fa';
+
 import React, { useRef, useState, useEffect } from 'react';
 import fbase from "../config/Firebase";
-import { FaPlay, FaStop, FaCamera, FaRedo } from 'react-icons/fa';
+import './videorecorder.css';
 
 export default function VideoRecorder() {
   const [isRecording, setIsRecording] = useState(false);
@@ -38,7 +41,7 @@ export default function VideoRecorder() {
     const mediaRecorder = new MediaRecorder(cameraStream, { mimeType: 'video/webm' });
     mediaRecorderRef.current = mediaRecorder;
     mediaRecorder.addEventListener('dataavailable', handleDataAvailable);
-    mediaRecorder.start(5000); // Record every 5 seconds
+    mediaRecorder.start(60000); // Record every minute
     setIsRecording(true);
     setIsLoading(false);
   };
@@ -52,34 +55,32 @@ export default function VideoRecorder() {
     if (event.data.size > 0) {
       setRecordedChunks((prev) => [...prev, event.data]);
     }
-  };
-
-  const handleUpload = () => {
-    const storageRef = fbase.storage.ref();
-    const firestore = fbase.db;
-    const userId = fbase.auth.currentUser.uid;
-    const fileName = `${Date.now()}.webm`;
-    const fileRef = storageRef.child(fileName);
-    const blob = new Blob(recordedChunks, { type: 'video/webm' });
-  
-    fileRef.put(blob)
-      .then((snapshot) => {
-        console.log('Video uploaded successfully.');
-        return snapshot.ref.getDownloadURL();
-      })
-      .then((downloadURL) => {
-        return firestore.collection('users').doc(userId).collection('videolinks').add({
-          url: downloadURL,
-          createdAt: Date.now()
+    if (mediaRecorderRef.current.state === "inactive") {
+      const blob = new Blob(recordedChunks, { type: 'video/webm' });
+      const storageRef = fbase.storage.ref();
+      const firestore = fbase.db;
+      const userId = fbase.auth.currentUser.uid;
+      const fileName = `${Date.now()}.webm`;
+      const fileRef = storageRef.child(fileName);
+      fileRef.put(blob)
+        .then((snapshot) => {
+          console.log('Video uploaded successfully.');
+          return snapshot.ref.getDownloadURL();
+        })
+        .then((downloadURL) => {
+          return firestore.collection('users').doc(userId).collection('videolinks').add({
+            url: downloadURL,
+            createdAt: Date.now()
+          });
+        })
+        .then(() => {
+          console.log('Video URL saved to Firestore.');
+          setRecordedChunks([]);
+        })
+        .catch((error) => {
+          console.error('Error uploading video.', error);
         });
-      })
-      .then(() => {
-        console.log('Video URL saved to Firestore.');
-        setRecordedChunks([]);
-      })
-      .catch((error) => {
-        console.error('Error uploading video.', error);
-      });
+    }
   };
 
   const handleSwitchCamera = () => {
@@ -105,27 +106,23 @@ export default function VideoRecorder() {
         </div>
         <div className="video-controls">
           {!isRecording && !videoPreviewUrl && (
-            <button onClick={handleStartRecording} disabled={!cameraStream || isLoading}>
-              <FaPlay />
+            <button className='btn' onClick={handleStartRecording} disabled={!cameraStream || isLoading}>
+              start
             </button>
           )}
           {isRecording && (
             <button onClick={handleStopRecording}>
-              <FaStop />
+              Stop
             </button>
           )}
-          {recordedChunks.length > 0 && (
-            <button onClick={handleUpload}>
-              Upload
-            </button>
-          )}
+          
           {videoPreviewUrl && (
             <button onClick={handleRetakeVideo}>
-              <FaRedo />
+              Redo
             </button>
           )}
           <button onClick={handleSwitchCamera}>
-            <FaCamera />
+            Switch Camera
           </button>
         </div>
       </div>
