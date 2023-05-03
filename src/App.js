@@ -9,6 +9,7 @@ import TopNavBar from "./app/navbar/TopNav";
 import Settings from './app/Settings';
 import ViewVideo from "./app/LiveVideo/ViewVideo";
 import StartVideo from "./app/LiveVideo/StartVideo";
+import VideoRecorder from "./app/VideoRecorder";
 import Add from "./app/Rooms/Add";
 import ViewRooms from "./app/Rooms/ViewRooms";
 
@@ -53,7 +54,7 @@ function MyRoutes() {
       <Routes>
         <Route path="/signin" element={<SignIn/>}/>
         <Route path="/signup" element={<SignUp/>}/>
-        {/*<Route path="/" element={<VideoRecorder/>}/>*/}
+        <Route path="/" element={<VideoRecorder/>}/>
         <Route path="/pastvideos" element={<Dashboard/>}/>
           <Route path="/dashboard" element={<Add/>}/>
           {/*<Route path="/startvideo" element={<StartVideo/>}/>*/}
