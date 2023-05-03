@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import './startButton.css';
 
 import fbase from "../../config/Firebase";
 import Start from "./Start";
@@ -36,6 +37,7 @@ function RoomList() {
         <video id="remoteVideo" muted autoPlay playsInline></video>
 
       </div>
+      <div className="start-button-container">
       <button className="mdc-button mdc-button--raised" id="cameraBtn" onClick={window.openUserMedia}>
         <i className="material-icons mdc-button__icon" aria-hidden="true">perm_camera_mic</i>
         <span className="mdc-button__label">Open camera & microphone</span>
@@ -65,6 +67,7 @@ function RoomList() {
                 </div>
             ))
         )}
+        </div>
     </div>
   );
 }
