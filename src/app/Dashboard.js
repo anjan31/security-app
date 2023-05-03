@@ -41,7 +41,7 @@ export default function Dashboard() {
       const div = document.createElement('div');
       const p = document.createElement('p');
       p.className = 'timestamp';
-      p.textContent = new Date(video.createdAt * 1000).toLocaleString(); // convert timestamp to date string
+      p.textContent = new Date(video.createdAt).toLocaleString();
 
       const videoElement = document.createElement('video');
       videoElement.src = video.url;

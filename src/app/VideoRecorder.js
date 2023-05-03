@@ -38,7 +38,7 @@ export default function VideoRecorder() {
     const mediaRecorder = new MediaRecorder(cameraStream, { mimeType: 'video/webm' });
     mediaRecorderRef.current = mediaRecorder;
     mediaRecorder.addEventListener('dataavailable', handleDataAvailable);
-    mediaRecorder.start(5000); // Record every 5 seconds
+    mediaRecorder.start(300000); // Record every 5 minute
     setIsRecording(true);
     setIsLoading(false);
   };
@@ -53,6 +53,13 @@ export default function VideoRecorder() {
       setRecordedChunks((prev) => [...prev, event.data]);
     }
   };
+
+  useEffect(() => {
+    if (recordedChunks && recordedChunks.length >0){
+      console.log(recordedChunks)
+      handleUpload();
+    }
+  }, [recordedChunks]);
 
   const handleUpload = () => {
     const storageRef = fbase.storage.ref();

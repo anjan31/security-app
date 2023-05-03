@@ -23,7 +23,7 @@ function TopNavBar({ onLogout }) {
             <>
 
               <li><Link to="/pastvideos">Past Videos</Link></li>
-              <li><Link to="/dashboard">Dashboard</Link></li>
+              <li><Link to="/dashboard">Start Room</Link></li>
               <li><Link to="/viewrooms">View Rooms</Link></li>
               <li><Link to="/settings">Settings</Link></li>
 
