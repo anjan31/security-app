@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import fbase from "../../config/Firebase";
 import Start from "./Start";
+import './Add.css';
 
 function RoomList() {
   const [rooms, setRooms] = useState([]);
@@ -30,13 +31,8 @@ function RoomList() {
 
   return (
     <div>
-
-        Updated Version View Rooms
-
-      <div id="videos">
-        Local
+      <div id="videos" className="container">
           <video id="localVideo" muted autoPlay playsInline className="displayNone"></video>
-        Remote
         <video id="remoteVideo" muted autoPlay playsInline></video>
 
       </div>
