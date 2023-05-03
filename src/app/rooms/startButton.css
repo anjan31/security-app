@@ -1,6 +1,6 @@
 .start-button-container {
     position: absolute;
-    top: 63vh;
+    top: 70vh;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 999;
