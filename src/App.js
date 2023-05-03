@@ -71,7 +71,6 @@ function MyRoutes() {
 function App() {
   return (
     <div>
-      <button onClick={window.init}>Start Application</button>
       <Router>
         <MyRoutes/>
       </Router>

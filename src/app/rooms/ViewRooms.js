@@ -6,6 +6,7 @@ import Start from "./Start";
 function RoomList() {
   const [rooms, setRooms] = useState([]);
     const [currentUser, setCurrentUser] = useState(null);
+    const [roomJoined, setRoomJoined] = useState(false);
 
     useEffect(() => {
         const unsubscribeAuth = fbase.auth.onAuthStateChanged((user) => {
@@ -44,14 +45,30 @@ function RoomList() {
         <span className="mdc-button__label">Open camera & microphone</span>
       </button>
 
-      {rooms.map((room) => (
-        <div key={room.id}>
-          <div>{room.id}</div>
-          <div>{room.roomName}</div>
-          <div>{room.description}</div>
-          <button className="start-button" id='createBtn' onClick={()=>window.joinRoomById(room.id)}>Join Room</button>
-        </div>
-      ))}
+        {roomJoined ? (
+            <button onClick={async () => {
+                await window.hangUp();
+                window.location.reload();
+            }}>Hang Up</button>
+        ) : (
+            rooms.map((room) => (
+                <div key={room.id}>
+                    <div>{room.id}</div>
+                    <div>{room.roomName}</div>
+                    <div>{room.description}</div>
+                    <button
+                        className="start-button"
+                        id="createBtn"
+                        onClick={() => {
+                            window.joinRoomById(room.id);
+                            setRoomJoined(true);
+                        }}
+                    >
+                        Join Room
+                    </button>
+                </div>
+            ))
+        )}
     </div>
   );
 }
