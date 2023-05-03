@@ -46,5 +46,69 @@
    
   }
 
-
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .settings-form {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, auto);
+    gap: 1rem;
+    max-width: 600px;
+    padding: 2rem;
+    background-color: #f5f5f5;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .settings-form h2 {
+    grid-column: 1 / 4;
+    text-align: center;
+    margin: 0;
+  }
+  
+  .settings-form .form-group {
+    grid-column: 1 / 4;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .settings-form .form-group label {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .settings-form .form-group p {
+    margin: 0;
+    font-weight: bold;
+  }
+  
+  .settings-form input[type="password"] {
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    border: none;
+    border-bottom: 2px solid #2196f3;
+  }
+  
+  .settings-form button[type="submit"] {
+    grid-column: 1 / 4;
+    margin-top: 1rem;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .settings-form button[type="submit"]:hover {
+    background-color: #0d8cf0;
+  }
+  
   
