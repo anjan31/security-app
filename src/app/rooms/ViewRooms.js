@@ -35,7 +35,7 @@ function RoomList() {
 
       <div id="videos">
         Local
-        <video id="localVideo" muted autoPlay playsInline></video>
+        <video id="localVideo" muted autoPlay playsInline className="displayNone"></video>
         Remote
         <video id="remoteVideo" muted autoPlay playsInline></video>
 

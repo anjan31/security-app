@@ -7,7 +7,7 @@ function Add() {
       Local
       <video id="localVideo" muted autoPlay playsInline></video>
       Remote
-      <video id="remoteVideo" muted autoPlay playsInline></video>
+      <video id="remoteVideo" muted autoPlay playsInline className="displayNone"></video>
 
       <Start/>
     </div>

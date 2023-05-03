@@ -54,11 +54,11 @@ function MyRoutes() {
         <Route path="/signin" element={<SignIn/>}/>
         <Route path="/signup" element={<SignUp/>}/>
         {/*<Route path="/" element={<VideoRecorder/>}/>*/}
-        <Route path="/pastvideos" element={<Dashboard/>}/>
-        <Route path="/startvideo" element={<StartVideo/>}/>
-        <Route path="/viewvideo" element={<ViewVideo/>}/>
+          <Route path="/dashboard" element={<Add/>}/>
+          <Route path="/pastvideos" element={<Dashboard/>}/>
+        {/*<Route path="/startvideo" element={<StartVideo/>}/>*/}
+        {/*<Route path="/viewvideo" element={<ViewVideo/>}/>*/}
         <Route path="/settings" element={<Settings/>}/>
-        <Route path="/add" element={<Add/>}/>
         <Route path="/viewrooms" element={<ViewRooms/>}/>
 
 

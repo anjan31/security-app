@@ -22,11 +22,12 @@ function TopNavBar({ onLogout }) {
           {currentUser && (
             <>
               <li><Link to="/pastvideos">Past Videos</Link></li>
-              <li><Link to="/startvideo">Start Videos</Link></li>
-              <li><Link to="/viewvideo">View Videos</Link></li>
-              <li><Link to="/settings">Settings</Link></li>
-              <li><Link to="/add">Start</Link></li>
+              <li><Link to="/dashboard">Dashboard</Link></li>
               <li><Link to="/viewrooms">View Rooms</Link></li>
+              {/*<li><Link to="/startvideo">Start Videos</Link></li>*/}
+              {/*<li><Link to="/viewvideo">View Videos</Link></li>*/}
+              <li><Link to="/settings">Settings</Link></li>
+
 
               <li><button onClick={onLogout}>Logout</button></li>
             </>
