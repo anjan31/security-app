@@ -29,8 +29,6 @@ function StartButton({ onStart }) {
       await fbase.db.collection("roomDetails").doc(window.roomId).set(value);
       setRoomId(window.roomId);
     };
-    
-
   return (
     <div className="start-button-container">
 

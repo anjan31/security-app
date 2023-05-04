@@ -50,7 +50,6 @@ function RoomList() {
                 <div className="items" key={room.id}>
                     <div>Room Id : {room.id}</div>
                     { room.name ? <div>Room Name : {room.name}</div> : <span></span>}
-
                     <button
                         className="mdc-button margin-top"
                         id="createBtn"
