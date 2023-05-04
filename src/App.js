@@ -9,6 +9,7 @@ import TopNavBar from "./app/navbar/TopNav";
 import Settings from './app/Settings';
 import ViewVideo from "./app/LiveVideo/ViewVideo";
 import StartVideo from "./app/LiveVideo/StartVideo";
+import VideoRecorder from "./app/VideoRecorder";
 import Add from "./app/Rooms/Add";
 import ViewRooms from "./app/Rooms/ViewRooms";
 
@@ -53,12 +54,12 @@ function MyRoutes() {
       <Routes>
         <Route path="/signin" element={<SignIn/>}/>
         <Route path="/signup" element={<SignUp/>}/>
-        {/*<Route path="/" element={<VideoRecorder/>}/>*/}
+        <Route path="/" element={<VideoRecorder/>}/>
         <Route path="/pastvideos" element={<Dashboard/>}/>
-        <Route path="/startvideo" element={<StartVideo/>}/>
-        <Route path="/viewvideo" element={<ViewVideo/>}/>
+          <Route path="/dashboard" element={<Add/>}/>
+          {/*<Route path="/startvideo" element={<StartVideo/>}/>*/}
+        {/*<Route path="/viewvideo" element={<ViewVideo/>}/>*/}
         <Route path="/settings" element={<Settings/>}/>
-        <Route path="/add" element={<Add/>}/>
         <Route path="/viewrooms" element={<ViewRooms/>}/>
 
 
@@ -71,7 +72,6 @@ function MyRoutes() {
 function App() {
   return (
     <div>
-      <button onClick={window.init}>Start Application</button>
       <Router>
         <MyRoutes/>
       </Router>

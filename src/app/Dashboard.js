@@ -25,6 +25,7 @@ export default function Dashboard() {
           const videos = snapshot.docs.map((doc) => ({
             id: doc.id,
             url: doc.data().url,
+            createdAt: doc.data().createdAt,
           }));
           setVideoLinks(videos);
           console.log(videos)
@@ -37,11 +38,19 @@ export default function Dashboard() {
   useEffect(() => {
     const videoContainer = document.getElementById('video-container');
     videoLinks.forEach((video) => {
+      const div = document.createElement('div');
+      const p = document.createElement('p');
+      p.className = 'timestamp';
+      p.textContent = new Date(video.createdAt).toLocaleString();
+
       const videoElement = document.createElement('video');
       videoElement.src = video.url;
       videoElement.controls = true;
       videoElement.className = 'video';
-      videoContainer.appendChild(videoElement);
+      div.appendChild(videoElement);
+      div.appendChild(p);
+      videoContainer.appendChild(div);
+
     });
   }, [videoLinks]);
 

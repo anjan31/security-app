@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import fbase from "../config/Firebase";
+import './videorecorder.css';
 import { FaPlay, FaStop, FaCamera, FaRedo } from 'react-icons/fa';
 
 export default function VideoRecorder() {
@@ -38,7 +39,7 @@ export default function VideoRecorder() {
     const mediaRecorder = new MediaRecorder(cameraStream, { mimeType: 'video/webm' });
     mediaRecorderRef.current = mediaRecorder;
     mediaRecorder.addEventListener('dataavailable', handleDataAvailable);
-    mediaRecorder.start(5000); // Record every 5 seconds
+    mediaRecorder.start(300000); // Record every 5 minute
     setIsRecording(true);
     setIsLoading(false);
   };
@@ -53,6 +54,13 @@ export default function VideoRecorder() {
       setRecordedChunks((prev) => [...prev, event.data]);
     }
   };
+
+  useEffect(() => {
+    if (recordedChunks && recordedChunks.length >0){
+      console.log(recordedChunks)
+      handleUpload();
+    }
+  }, [recordedChunks]);
 
   const handleUpload = () => {
     const storageRef = fbase.storage.ref();
@@ -94,24 +102,23 @@ export default function VideoRecorder() {
 
   return (
     <div className="video-recorder-container">
-      <div className="video-preview-container">
+      <div className="container-recorder">
         {videoPreviewUrl ? (
           <video src={videoPreviewUrl} autoPlay controls />
         ) : (
-          <video ref={videoRef} autoPlay
-          className="video-preview"
+          <video ref={videoRef} autoPlay className="video-preview"
           />
           )}
         </div>
         <div className="video-controls">
           {!isRecording && !videoPreviewUrl && (
             <button onClick={handleStartRecording} disabled={!cameraStream || isLoading}>
-              <FaPlay />
+              Start
             </button>
           )}
           {isRecording && (
             <button onClick={handleStopRecording}>
-              <FaStop />
+              Stop
             </button>
           )}
           {recordedChunks.length > 0 && (
@@ -121,11 +128,11 @@ export default function VideoRecorder() {
           )}
           {videoPreviewUrl && (
             <button onClick={handleRetakeVideo}>
-              <FaRedo />
+              Redo
             </button>
           )}
           <button onClick={handleSwitchCamera}>
-            <FaCamera />
+            Switch Camera
           </button>
         </div>
       </div>

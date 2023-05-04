@@ -1,44 +1,69 @@
 import React, { useState, useEffect } from "react";
+import './startButton.css';
 
 import fbase from "../../config/Firebase";
-
+import Start from "./Start";
+import './Add.css';
 
 function RoomList() {
   const [rooms, setRooms] = useState([]);
+    const [currentUser, setCurrentUser] = useState(null);
+    const [roomJoined, setRoomJoined] = useState(false);
+
+    useEffect(() => {
+        const unsubscribeAuth = fbase.auth.onAuthStateChanged((user) => {
+            setCurrentUser(user);
+        });
+        return () => unsubscribeAuth();
+    }, []);
 
   useEffect(() => {
-    const unsubscribe = fbase.db
-      .collection('rooms')
-      .onSnapshot(snapshot => {
-        const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        setRooms(data);
-      });
-    return () => unsubscribe();
-  }, []);
+    if (currentUser){
+        const unsubscribe = fbase.db
+            .collection('roomDetails')
+            .where('uid' ,'==', currentUser.uid)
+            .onSnapshot(snapshot => {
+                const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                setRooms(data);
+            });
+        window.openUserMedia();
+        return () => unsubscribe();
+    }
+  }, [currentUser]);
 
   return (
-    <div>             
-
-      <div id="videos">
-        Local
-        <video id="localVideo" muted autoPlay playsInline></video>
-        Remote
-        <video id="remoteVideo" muted autoPlay playsInline></video>
-
+    <div>
+      <div id="videos" className="container">
+          <video id="localVideo" muted autoPlay playsInline className="displayNone"></video>
+            <video id="remoteVideo" muted autoPlay playsInline className={roomJoined? '': 'displayNone'}></video>
       </div>
-      <button className="mdc-button mdc-button--raised" id="cameraBtn" onClick={window.openUserMedia}>
-        <i className="material-icons mdc-button__icon" aria-hidden="true">perm_camera_mic</i>
-        <span className="mdc-button__label">Open camera & microphone</span>
-      </button>
+        {!roomJoined && <h2 className="heading">Available Rooms</h2>}
+      <div className="button-container">
 
-      {rooms.map((room) => (
-        <div key={room.id}>
-          <div>{room.id}</div>
-          <div><h2>{room.name}</h2></div>
-          <div>{room.description}</div>
-          <button className="start-button" id='createBtn' onClick={()=>window.joinRoomById(room.id)}>Join Room</button>
+        {roomJoined ? (
+            <button className="mdc-button-danger" onClick={async () => {
+                await window.hangUp();
+                window.location.reload();
+            }}>Hang Up</button>
+        ) : (
+            rooms.map((room) => (
+                <div className="items" key={room.id}>
+                    <div>Room Id : {room.id}</div>
+                    { room.name ? <div>Room Name : {room.name}</div> : <span></span>}
+                    <button
+                        className="mdc-button margin-top"
+                        id="createBtn"
+                        onClick={() => {
+                            window.joinRoomById(room.id);
+                            setRoomJoined(true);
+                        }}
+                    >
+                        Join Room
+                    </button>
+                </div>
+            ))
+        )}
         </div>
-      ))}
     </div>
   );
 }

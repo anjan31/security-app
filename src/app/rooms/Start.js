@@ -1,40 +1,67 @@
-import React from 'react';
+import React ,{ useState, useEffect }from 'react';
 import './startButton.css';
 import fbase from "../../config/Firebase";
-import  { useState } from 'react';
 
+function StartButton({ onStart }) {
 
-function StartButton() {
+    const [currentUser, setCurrentUser] = useState(null);
+    const [roomId, setRoomId] = useState(null);
+    const [name,SetName] = useState(null);
 
-  const currentUser = fbase.auth.currentUser.uid;
-  console.log(currentUser);
-  
+    useEffect(() => {
+        const unsubscribeAuth = fbase.auth.onAuthStateChanged((user) => {
+            setCurrentUser(user);
+        });
+        window.openUserMedia();
 
+        return () => unsubscribeAuth();
+    }, []);
 
-
-  const [roomName, setRoomName] = useState('');
-
-
+    const createRoom = async () => {
+      await window.createRoom();
+      const value = {
+          uid: currentUser.uid,
+      }
+      if (name){
+          value.name = name;
+      }
+        console.log(value)
+      await fbase.db.collection("roomDetails").doc(window.roomId).set(value);
+      setRoomId(window.roomId);
+    };
   return (
     <div className="start-button-container">
 
-      <button className="mdc-button mdc-button--raised" onClick={window.openUserMedia}>
-            <i className="material-icons mdc-button__icon" aria-hidden="true">perm_camera_mic</i>
-            <span className="mdc-button__label">Open camera & microphone</span>
-            </button>
+      {/*<button className="mdc-button" onClick={window.openUserMedia}>*/}
+      {/*      <i className="material-icons mdc-button__icon" aria-hidden="true">perm_camera_mic</i>*/}
+      {/*      <span className="mdc-button__label">Give Access</span>*/}
+      {/*      </button>*/}
 
-      
-      <form>
-      <input
-        type="text"
-        placeholder="Enter room name"
-        value={roomName}
-        onChange={(event) => setRoomName(event.target.value)}
-      />
-      <button className="start-button"  onClick={()=>window.createRoom(roomName,currentUser)}>Create Room</button>
-    </form>
+        {
+            roomId?
+                (<button className="mdc-button-danger" onClick={()=>{
+                    window.hangUp();
+                    setRoomId(null);
+                }}>Hangup</button>)
+                :(
+              <div>
+                
+                <div className="start-card">
+                    <div className="form-group">
+                        <label>Room Name:</label><br/>
+                        <input type="text"  onChange={(e) => {
+                            console.log(e.target.value)
+                            SetName(e.target.value)
+                        }} />
+                    </div>
+                    <button className='mdc-button' onClick={createRoom}>Start</button>
+                </div>
+            </div>
+                
+                )
 
-      <button className="start-button" onClick={window.hangUp}>Hangup</button>
+        }
+
     </div>
   );
 }

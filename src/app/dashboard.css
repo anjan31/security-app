@@ -10,7 +10,10 @@
   }
   
   .video {
-    width: 100%;
-    height: auto;
+    margin-top: 2vh;
+    width: 20vw;
+    height: 20vh;
+    border-radius: 10px;
+
   }
   
